@@ -1,5 +1,6 @@
 package com.blog.exceptions;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,13 @@ public class GlobalExceptionHandler {
 		});
 		
 		return new ResponseEntity<Map<String,String>>(resp,HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(FileNotFoundException.class)
+	public ResponseEntity<ApiResponse> fileNotFoundExceptionHandler(FileNotFoundException ex){
+		String message = ex.getMessage();
+		ApiResponse response = new ApiResponse(message,false);
+		return new ResponseEntity<ApiResponse>(response,HttpStatus.NOT_FOUND);
 	}
 
 }
