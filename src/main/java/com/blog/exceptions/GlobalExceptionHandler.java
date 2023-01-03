@@ -3,9 +3,11 @@ package com.blog.exceptions;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,6 +47,13 @@ public class GlobalExceptionHandler {
 		String message = ex.getMessage();
 		ApiResponse response = new ApiResponse(message,false);
 		return new ResponseEntity<ApiResponse>(response,HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<ApiResponse> badCredentialsExceptionHAndler(BadCredentialsException ex){
+		String message = ex.getMessage();
+		ApiResponse response = new ApiResponse(message,false);
+		return new ResponseEntity<ApiResponse>(response,HttpStatus.BAD_REQUEST);
 	}
 
 }
